@@ -29,6 +29,10 @@ public class HangmanGame {
         this.hangmanInitialSize = this.hangman.length();
     }
 
+    public HangmanGameStatus getHangmanGameStatus() {
+        return hangmanGameStatus;
+    }
+
     public void inputCharacter(final char character){
         if (this.hangmanGameStatus != HangmanGameStatus.IN_PROGRESS) {
             var message = this.hangmanGameStatus == HangmanGameStatus.WON ? "Congrats! You won!" : "Oh no! You LOST! Try again. Better luck next time.";
