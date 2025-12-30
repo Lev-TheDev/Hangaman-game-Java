@@ -1,6 +1,7 @@
 package br.com.dio.hangman.model;
 
 import br.com.dio.hangman.exception.GameIsFinishedException;
+import br.com.dio.hangman.exception.LetterAlreadyInputtedException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +39,10 @@ public class HangmanGame {
                 .filter(c -> c.getCharacter() == character)
                 .toList();
 
+        if (this.failedAttempts.contains(character)) {
+            throw new LetterAlreadyInputtedException("Letter '" + character + "' has already been inputted.");
+        }
+
         if (found.isEmpty()) {
             failedAttempts.add(character);
             if (failedAttempts.size() >= 6){
@@ -46,6 +51,20 @@ public class HangmanGame {
             rebuildHangman(this.hangmanPaths.removeFirst());
             return;
         }
+
+        if (found.getFirst().isVisible()) {
+            throw new LetterAlreadyInputtedException("Letter '" + character + "' has already been inputted.");
+        }
+
+        this.characters.forEach(c -> {
+            if (c.getCharacter() == found.getFirst().getCharacter()) {
+                c.enableVisibility();
+            }
+        });
+        if (this.characters.stream().noneMatch(HangmanChar::isInvisible)) {
+            this.hangmanGameStatus = HangmanGameStatus.WON;
+        }
+        rebuildHangman(found.toArray(HangmanChar[]::new));
     }
 
     @Override
