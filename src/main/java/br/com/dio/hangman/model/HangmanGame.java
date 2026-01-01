@@ -81,12 +81,12 @@ public class HangmanGame {
         final var LEGS_LINE = 5;
         return new ArrayList<>(
                 List.of(
-                        new HangmanChar('O', this.lineSize * HEAD_LINE + 6),
-                        new HangmanChar('|', this.lineSize * BODY_LINE + 6),
-                        new HangmanChar('/', this.lineSize * BODY_LINE + 5),
-                        new HangmanChar('\\', this.lineSize * BODY_LINE + 7),
-                        new HangmanChar('/', this.lineSize * LEGS_LINE + 5),
-                        new HangmanChar('\\', this.lineSize * LEGS_LINE + 7)
+                        new HangmanChar('O', this.lineSize * HEAD_LINE + 8),
+                        new HangmanChar('|', this.lineSize * BODY_LINE + 8),
+                        new HangmanChar('/', this.lineSize * BODY_LINE + 7),
+                        new HangmanChar('\\', this.lineSize * BODY_LINE + 9),
+                        new HangmanChar('/', this.lineSize * LEGS_LINE + 7),
+                        new HangmanChar('\\', this.lineSize * LEGS_LINE + 9)
                 )
         );
     }

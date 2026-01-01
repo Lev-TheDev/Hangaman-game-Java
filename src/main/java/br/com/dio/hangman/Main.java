@@ -4,6 +4,7 @@ import br.com.dio.hangman.exception.GameIsFinishedException;
 import br.com.dio.hangman.exception.LetterAlreadyInputtedException;
 import br.com.dio.hangman.model.HangmanChar;
 import br.com.dio.hangman.model.HangmanGame;
+import br.com.dio.hangman.model.HangmanGameStatus;
 import br.com.dio.hangman.utils.WordRepository;
 
 import java.util.ArrayList;
@@ -15,14 +16,8 @@ public class Main {
     private final static Scanner scanner = new Scanner(System.in);
 
     public static void main(String... args) {
-        /*var characters = Stream.of(args)
-                .map(a -> a.toLowerCase().charAt(0))
-                .map(HangmanChar::new)
-                .toList();
-        //System.out.println(characters);
-        var hangmanGame = new HangmanGame(characters);*/
+
         System.out.println("Welcome to Hangman Game! Try to guess the word. Good luck!");
-        //System.out.println(hangmanGame);
         WordRepository repository = new WordRepository();
         String chosenWord = repository.getRandomWord();
         System.out.println("The chosen word has " + chosenWord.length() + " letters.");
@@ -32,32 +27,50 @@ public class Main {
         }
         HangmanGame hangmanGame = new HangmanGame(hangmanChars);
 
+        System.out.println(hangmanGame);
 
         while (true) {
             System.out.println("Select an option:");
             System.out.println("1 - Input a letter");
             System.out.println("2 - Verify game status");
-            System.out.println("3 - Exit");
-            var option = scanner.nextInt();
-            if ((option > 3) || (option < 0)) {
-                System.out.println("Invalid option. Please try again.");
+            System.out.println("0 - Exit");
+
+            int option = -1;
+            if (scanner.hasNextInt()) {
+                option = scanner.nextInt();
+            } else {
+                scanner.next();
             }
+
             if (option == 1) {
                 inputLetter(hangmanGame);
-            }
-            if (option == 2) {
-                var status = hangmanGame.getHangmanGameStatus();
-                switch (status.name()) {
-                    case "WON" -> System.out.println("Congratulations! You've won the game!");
-                    case "LOST" -> System.out.println("Sorry, you've lost the game. Better luck next time!");
-                    case "IN_PROGRESS" -> System.out.println("Game is still in progress.");
+                if (hangmanGame.getHangmanGameStatus() != HangmanGameStatus.IN_PROGRESS) {
+                    System.out.println("\n--- THAT'S THE END ---");
+                    if (hangmanGame.getHangmanGameStatus() == HangmanGameStatus.WON) {
+                        System.out.println("Congratulations! You've won the game!");
+                    } else {
+                        System.out.println("Sorry, you've lost the game. Better luck next time! The word was: " + chosenWord);
+                    }
+                    break;
                 }
             }
-            if (option == 0) {
+            else if (option == 2) {
+                var status = hangmanGame.getHangmanGameStatus();
+                switch (status) {
+                    case WON -> System.out.println("Congratulations! You've won the game!");
+                    case LOST -> System.out.println("Sorry, you've lost the game. Better luck next time!");
+                    case IN_PROGRESS -> System.out.println("Game is still in progress.");
+                }
+            }
+            else if (option == 0) {
                 System.out.println("Exiting the game. Thanks for playing!");
                 System.exit(0);
             }
+            else {
+                System.out.println("Invalid option. Please try again.");
+            }
         }
+        scanner.close();
     }
 
     private static void inputLetter ( final HangmanGame hangmanGame){
@@ -66,9 +79,9 @@ public class Main {
         try {
             hangmanGame.inputCharacter(letter);
         } catch (LetterAlreadyInputtedException e) {
-            System.out.println(e.getMessage());
+            System.out.println("Warning: " + e.getMessage());
         } catch (GameIsFinishedException e) {
-            System.out.println(e.getMessage());
+            System.out.println("Warning: " + e.getMessage());
             System.exit(0);
         }
         System.out.println(hangmanGame);
