@@ -4,7 +4,10 @@ import br.com.dio.hangman.exception.GameIsFinishedException;
 import br.com.dio.hangman.exception.LetterAlreadyInputtedException;
 import br.com.dio.hangman.model.HangmanChar;
 import br.com.dio.hangman.model.HangmanGame;
+import br.com.dio.hangman.utils.WordRepository;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Stream;
 
@@ -12,14 +15,23 @@ public class Main {
     private final static Scanner scanner = new Scanner(System.in);
 
     public static void main(String... args) {
-        var characters = Stream.of(args)
+        /*var characters = Stream.of(args)
                 .map(a -> a.toLowerCase().charAt(0))
                 .map(HangmanChar::new)
                 .toList();
         //System.out.println(characters);
-        var hangmanGame = new HangmanGame(characters);
+        var hangmanGame = new HangmanGame(characters);*/
         System.out.println("Welcome to Hangman Game! Try to guess the word. Good luck!");
-        System.out.println(hangmanGame);
+        //System.out.println(hangmanGame);
+        WordRepository repository = new WordRepository();
+        String chosenWord = repository.getRandomWord();
+        System.out.println("The chosen word has " + chosenWord.length() + " letters.");
+        List<HangmanChar> hangmanChars = new ArrayList<>();
+        for (char c : chosenWord.toCharArray()) {
+            hangmanChars.add(new HangmanChar(c));
+        }
+        HangmanGame hangmanGame = new HangmanGame(hangmanChars);
+
 
         while (true) {
             System.out.println("Select an option:");

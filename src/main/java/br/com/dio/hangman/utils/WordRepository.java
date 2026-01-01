@@ -34,13 +34,13 @@ public class WordRepository {
             Random random = new Random();
             int randomIndex = random.nextInt(words.size());
 
-            // 4. Retorna a palavra sorteada em maiúsculas (para padronizar)
-            return words.get(randomIndex).toUpperCase();
+            // 4. Retorna a palavra sorteada em minúsculas (para padronizar)
+            return words.get(randomIndex).toLowerCase();
 
         } catch (IOException e) {
             // Se der erro ao ler o arquivo, retorna uma palavra padrão de fallback
             System.err.println("Erro ao ler o arquivo CSV. Usando palavra padrão. Erro: " + e.getMessage());
-            return "BOMBEIRO";
+            return "bombeiro";
         }
     }
 }
