@@ -16,7 +16,7 @@ public class Main {
                 .map(a -> a.toLowerCase().charAt(0))
                 .map(HangmanChar::new)
                 .toList();
-        System.out.println(characters);
+        //System.out.println(characters);
         var hangmanGame = new HangmanGame(characters);
         System.out.println("Welcome to Hangman Game! Try to guess the word. Good luck!");
         System.out.println(hangmanGame);

@@ -8,8 +8,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 public class HangmanGame {
-    private final static int HANGMAN_INITIAL_LINE_LENGTH = 9;
-    private final static int HANGMAN_INITIAL_LINE_LENGTH_WITH_LINE_SEPARATOR = 10;
+    private final static int HANGMAN_INITIAL_LINE_LENGTH = 11;
     private final int lineSize;
     private final int hangmanInitialSize;
     private final List<HangmanChar> hangmanPaths;
@@ -21,7 +20,7 @@ public class HangmanGame {
     public HangmanGame(final List<HangmanChar> characters) {
         var whiteSpaces = " ".repeat(characters.size());
         var characterSpaces = "-".repeat(characters.size());
-        this.lineSize = HANGMAN_INITIAL_LINE_LENGTH_WITH_LINE_SEPARATOR + whiteSpaces.length();
+        this.lineSize = HANGMAN_INITIAL_LINE_LENGTH + whiteSpaces.length() + System.lineSeparator().length();
         this.hangmanGameStatus = HangmanGameStatus.IN_PROGRESS;
         this.hangmanPaths = buildHangmanPathsPositions();
         buildHangmanDesign(whiteSpaces, characterSpaces);
@@ -109,13 +108,13 @@ public class HangmanGame {
     }
 
     private void buildHangmanDesign(final String whiteSpaces, final String characterSpaces) {
-        this.hangman = "  -----  " + whiteSpaces + System.lineSeparator() +
-                                "  |     |  " + whiteSpaces + System.lineSeparator() +
-                                "  |     |  " + whiteSpaces + System.lineSeparator() +
-                                "  |        " + whiteSpaces + System.lineSeparator() +
-                                "  |        " + whiteSpaces + System.lineSeparator() +
-                                "  |        " + whiteSpaces + System.lineSeparator() +
-                                "  |        " + whiteSpaces + System.lineSeparator() +
-                                "=====" + characterSpaces + System.lineSeparator();
+        this.hangman = "  -----    " + whiteSpaces + System.lineSeparator() +
+                       "  |     |  " + whiteSpaces + System.lineSeparator() +
+                       "  |     |  " + whiteSpaces + System.lineSeparator() +
+                       "  |        " + whiteSpaces + System.lineSeparator() +
+                       "  |        " + whiteSpaces + System.lineSeparator() +
+                       "  |        " + whiteSpaces + System.lineSeparator() +
+                       "  |        " + whiteSpaces + System.lineSeparator() +
+                       "=====" + characterSpaces + System.lineSeparator();
     }
 }
